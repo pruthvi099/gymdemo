@@ -1,0 +1,92 @@
+{% extends 'Accounts/main.html' %}
+{% load static %}
+
+{% block styles %}
+<link rel="stylesheet" href="{%static 'Members/css/enquiryadd.css' %}">
+{% endblock %}
+
+
+{% block content %}
+  <h1 class="text-center" >Member Detail</h1>
+
+  <section class="vh-80" style="background-color: #f4f5f7;">
+    <div class="container p-2 h-100 w-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-lg-12 m-4 mb-lg-0">
+          <div class="card-lg mb-3" style="border-radius: .5rem;">
+            <div class="row g-0">
+              <div class="col-md-4 gradient-custom text-center text-white"
+                style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+                {% if member.gender == 'Male' %}
+                <img src="{% static 'Members/img/male_avatar_blue.svg' %}" alt="login form" class="img-fluid m-4" style="width: 8rem;"/>
+                {% else %}
+                <img src="{% static 'Members/img/female_avatar_blue.svg' %}" alt="login form" class="img-fluid m-4" style="width: 8rem;"/>
+                {% endif %}
+                <h5 class="fw-bolder" style="color: black;">{{member.name}}</h5>
+                <a href="{% url 'Members:memberplancreate' %}?member_id={{ member.id }}" class="btn btn-primary">Create Plan</a>
+
+
+              </div>
+              <div class="col-md-8">
+                <div class="card-body p-4">
+                  <h5 >Information
+                    {% if member.is_enquiry %} <span class="badge bg-info text-dark">Enquiry</span>  {% endif %}
+                    {% if not member.plan_validity %} <span class="badge bg-danger text-dark">Not Planed</span>  {% endif %}
+                  </h5>
+                  <hr class="mt-0 mb-4">
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Location</h6>
+                      <p class="text-muted">{{member.location}}</p>
+                    </div>
+                    <div class="col-6 mb-3">
+                      <h6>Mobile no</h6>
+                      <p class="text-muted">+91 {{member.mobile}}</p>
+                    </div>
+                  </div>
+                  <div class="row pt-1">
+                    <div class="col-6 mb-3">
+                      <h6>Birthday</h6>
+                      <p class="text-muted">{{member.birthday}}</p>
+                    </div>
+                  </div>
+                  <h6>All plans</h6>
+                  <div class="row pt-1">
+
+                    <table class="table mb-0">
+                        <thead class="small text-uppercase bg-body text-muted">
+                            <tr>
+                                <th>Plan</th>
+                                <th>Active</th>
+                                <th>Paid</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for oneplan in memberplans %}
+                              <tr class="align-middle">
+                                <td> {{oneplan.plan}} </td>
+                                <td> {% if oneplan.is_active %} <i class="fa-solid fa-check"></i> {% endif %} </td>
+                                <td> {% if oneplan.is_paid %} <i class="fa-solid fa-check"></i> {% endif %} </td>
+                                <td> <span class="d-inline-block align-middle">{{oneplan.startdate|date}}</span></td>
+                                <td> <span class="d-inline-block align-middle">{{oneplan.enddate|date}}</span></td>
+                                <td> <a class="align-middle" href="{% url 'Members:member_plan_edit' pk=oneplan.id %}" style="cursor:pointer;"><i class="bi bi-pencil-square"></i></a></td>
+                              </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

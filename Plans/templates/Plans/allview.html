@@ -1,0 +1,23 @@
+{% extends 'Accounts/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="m-5">
+    <div class="mx-auto p-5 wrap d-flex">
+        {% for p in plans %}
+        <div class="card m-5" style="max-width: 540px;">
+            <div class="row g-0 text-center">
+              <div class="col-md-8 text-center">
+                <div class="card-body text-center">
+                    <h1>{{p.name}}</h1>
+                    <h2><span class="badge bg-secondary">{{p.duration}} Months</span> </h2>
+                    <h2> <span class="badge bg-secondary">{{p.amount}} <i class="fa-solid fa-indian-rupee-sign"></i></span> </h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

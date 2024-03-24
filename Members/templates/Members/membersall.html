@@ -1,0 +1,64 @@
+{% extends 'Accounts/main.html' %} {% load static %} {% block styles %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{%static 'Members/css/enquiries.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-3 mb-lg-5">
+                <div class="overflow-hidden card table-nowrap table-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">All Members</h5>
+                        <a href="{% url "Members:addmember" %}" class="btn btn-light btn-sm">Add Member</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0 datatable" >
+                            <thead class="small text-uppercase bg-body text-muted">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Mobile Number</th>
+                                    <th>Location</th>
+                                    <th>Created Date</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mem in enquiries %}
+                                <tr class="align-middle">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if mem.gender == 'Male' %}
+                                            <img src="{% static 'Members/img/male_avatar_blue.svg' %}" alt="login form" class="img-fluid m-2" style="width: 3rem;"/>
+                                            {% else %}
+                                            <img src="{% static 'Members/img/female_avatar_blue.svg' %}" alt="login form" class="img-fluid m-2" style="width: 3rem;"/>
+                                            {% endif %}
+                                            <div class="mx-3">
+                                                <div class="h6 mb-0 lh-1">{{mem.name}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td> +91 {{mem.mobile}}</td>
+                                <td> <span class="d-inline-block align-middle">{{mem.location}}</span></td>
+                                <td>{{mem.created|date}}</td>
+                                <td class="text-end">
+                                    <div class="drodown mx-3">
+                                        <a data-bs-toggle="dropdown" href="#" class="btn p-1" aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                                        <div class="dropdown-menu dropdown-menu-end" style="">
+                                            <a href="{% url 'Members:member-detail' mem.id %}" class="dropdown-item">View Details</a>
+                                            <a href="{% url 'Members:deactivate-member' member_id=mem.id %}" class="dropdown-item">Set as Inactive</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

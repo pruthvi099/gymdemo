@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ProFit</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <link href="{% static 'Accounts/css/datatables.min.css' %}" rel="stylesheet">
+    <script src="{% static 'Accounts/css/datatables.min.js' %}"></script>
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
+
+    {% block styles %}{% endblock %}
+
+</head>
+
+<body>
+    <!-- NAVBAR START -->
+    <div class="d-flex">
+        <div class="m-2">
+            <div>
+                <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <nav class="navbar navbar-expand-sm mx-3">
+                            <a class="navbar-brand" href="#">
+                                <i class="fa-solid fa-dumbbell fa-lg"></i>
+                            </a>
+                        </nav>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <div class="nav mx-auto">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if active_tab == 'enquiry' %}active{% endif %}" href="{% url 'Accounts:dashboard' %}">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if active_tab == 'enquiry' %}active{% endif %}" href="{% url 'Members:enquiries' %}">Enquiry</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if active_tab == 'plans' %}active{% endif %}" href="{% url 'Plans:allplans' %}">Plans</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {% if active_tab == 'members' %}active{% endif %}" href="{% url 'Members:members' %}">Members</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% if user.is_authenticated %}
+                        <div class="navbar mx-3" title="{{user}} Logout">
+                            <a href="{% url 'Accounts:logout' %}" style="cursor: pointer;"><i class="bi bi-person-circle mx-2" style="font-size: 2rem; color: black" ></i></a>
+                        </div>
+                            
+                        {% else %}
+                        <div class="navbar mx-3">
+                            <a class="btn btn-light ms-3">Login <i class="bi bi-person-circle mx-2"></i></a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="p-3">
+            <div class="mt-5">
+                
+                {% if messages %}
+                <div class="alert alert-dismissible fade show" role="alert">
+                    {% for message in messages%}
+                        <div>{{ message }} </div>
+                    {% endfor %}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/7afd6ee74c.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready( function () {
+            $('.datatable').DataTable();
+        } );
+    </script>
+
+    {% block script %}
+    {% endblock %}
+</body>
+
+</html>
